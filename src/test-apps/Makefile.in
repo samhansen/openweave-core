@@ -145,6 +145,7 @@ target_triplet = @target@
 @WEAVE_BUILD_TESTS_TRUE@	TestAppKeys$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestArgParser$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestCASE$(EXEEXT) \
+@WEAVE_BUILD_TESTS_TRUE@	TestCertProv$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestCodeUtils$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestCrypto$(EXEEXT) TestDRBG$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestDeviceDescriptor$(EXEEXT) \
@@ -727,6 +728,7 @@ am__installdirs = "$(DESTDIR)$(libexecdir)"
 @WEAVE_BUILD_TESTS_TRUE@	TestASN1$(EXEEXT) TestAppKeys$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestArgParser$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestCASE$(EXEEXT) \
+@WEAVE_BUILD_TESTS_TRUE@	TestCertProv$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestCodeUtils$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestCrypto$(EXEEXT) TestDRBG$(EXEEXT) \
 @WEAVE_BUILD_TESTS_TRUE@	TestDeviceDescriptor$(EXEEXT) \
@@ -873,6 +875,16 @@ TestCASE_OBJECTS = $(am_TestCASE_OBJECTS)
 TestCASE_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(TestCASE_LDFLAGS) $(LDFLAGS) -o $@
+am__TestCertProv_SOURCES_DIST = TestCertProv.cpp MockCAService.cpp TestWeaveCertData.cpp
+@WEAVE_BUILD_TESTS_TRUE@am_TestCertProv_OBJECTS = TestCertProv.$(OBJEXT) \
+@WEAVE_BUILD_TESTS_TRUE@	MockCAService.$(OBJEXT) \
+@WEAVE_BUILD_TESTS_TRUE@	TestWeaveCertData.$(OBJEXT)
+TestCertProv_OBJECTS = $(am_TestCertProv_OBJECTS)
+@WEAVE_BUILD_TESTS_TRUE@TestCertProv_DEPENDENCIES = libWeaveTestCommon.a \
+@WEAVE_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_6)
+TestCertProv_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(TestCertProv_LDFLAGS) $(LDFLAGS) -o $@
 am__TestCodeUtils_SOURCES_DIST = TestCodeUtils.cpp
 @WEAVE_BUILD_TESTS_TRUE@am_TestCodeUtils_OBJECTS =  \
 @WEAVE_BUILD_TESTS_TRUE@	TestCodeUtils.$(OBJEXT)
@@ -1804,7 +1816,7 @@ SOURCES = $(libMockBleApplicationDelegate_a_SOURCES) \
 	$(libWeaveTestGroupKeyStore_a_SOURCES) \
 	$(GenerateEventLog_SOURCES) $(TestASN1_SOURCES) \
 	$(TestAppKeys_SOURCES) $(TestArgParser_SOURCES) \
-	$(TestBinding_SOURCES) $(TestCASE_SOURCES) \
+	$(TestBinding_SOURCES) $(TestCASE_SOURCES) $(TestCertProv_SOURCES) \
 	$(TestCodeUtils_SOURCES) $(TestCrypto_SOURCES) \
 	$(TestDRBG_SOURCES) $(TestDataManagement_SOURCES) \
 	$(TestDeviceDescriptor_SOURCES) $(TestECDH_SOURCES) \
@@ -1858,7 +1870,7 @@ DIST_SOURCES = $(am__libMockBleApplicationDelegate_a_SOURCES_DIST) \
 	$(am__TestASN1_SOURCES_DIST) $(am__TestAppKeys_SOURCES_DIST) \
 	$(am__TestArgParser_SOURCES_DIST) \
 	$(am__TestBinding_SOURCES_DIST) $(am__TestCASE_SOURCES_DIST) \
-	$(am__TestCodeUtils_SOURCES_DIST) \
+	$(am__TestCertProv_SOURCES_DIST) $(am__TestCodeUtils_SOURCES_DIST) \
 	$(am__TestCrypto_SOURCES_DIST) $(am__TestDRBG_SOURCES_DIST) \
 	$(am__TestDataManagement_SOURCES_DIST) \
 	$(am__TestDeviceDescriptor_SOURCES_DIST) \
@@ -1942,7 +1954,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-am__noinst_HEADERS_DIST = CASEOptions.h DMTestClient.h \
+am__noinst_HEADERS_DIST = CASEOptions.h MockCAService.h DMTestClient.h \
 	DeviceDescOptions.h KeyExportOptions.h MockDCLPServer.h \
 	MockDCServer.h MockDDServer.h MockDMPublisher.h MockEvents.h \
 	MockExternalEvents.h MockFPServer.h MockIAServer.h \
@@ -2890,7 +2902,7 @@ LOG_DRIVER = $(abs_srcdir)/weave-parallel-test-engine
 # Local headers to build against and distribute but not to install
 # since they are not part of the Weave SDK public API.
 #
-noinst_HEADERS = CASEOptions.h DMTestClient.h DeviceDescOptions.h \
+noinst_HEADERS = CASEOptions.h MockCAService.h DMTestClient.h DeviceDescOptions.h \
 	KeyExportOptions.h MockDCLPServer.h MockDCServer.h \
 	MockDDServer.h MockDMPublisher.h MockEvents.h \
 	MockExternalEvents.h MockFPServer.h MockIAServer.h \
@@ -2946,6 +2958,7 @@ noinst_HEADERS = CASEOptions.h DMTestClient.h DeviceDescOptions.h \
 @WEAVE_BUILD_TESTS_TRUE@	$(LWIP_CPPFLAGS) $(SOCKETS_CPPFLAGS) \
 @WEAVE_BUILD_TESTS_TRUE@	$(PTHREAD_CFLAGS) $(NULL) \
 @WEAVE_BUILD_TESTS_TRUE@	$(am__append_2)
+
 @WEAVE_BUILD_TESTS_TRUE@libWeaveCryptoTests_a_SOURCES = \
 @WEAVE_BUILD_TESTS_TRUE@    crypto-tests/WeaveCryptoAESTests.cpp         \
 @WEAVE_BUILD_TESTS_TRUE@    crypto-tests/WeaveCryptoHKDFTests.cpp        \
@@ -3072,7 +3085,7 @@ noinst_HEADERS = CASEOptions.h DMTestClient.h DeviceDescOptions.h \
 # These will NOT be part of the externally-consumable binary SDK.
 @WEAVE_BUILD_TESTS_TRUE@local_test_programs = GenerateEventLog \
 @WEAVE_BUILD_TESTS_TRUE@	TestASN1 TestAppKeys TestArgParser \
-@WEAVE_BUILD_TESTS_TRUE@	TestCASE TestCodeUtils TestCrypto \
+@WEAVE_BUILD_TESTS_TRUE@	TestCASE TestCertProv TestCodeUtils TestCrypto \
 @WEAVE_BUILD_TESTS_TRUE@	TestDRBG TestDeviceDescriptor TestECDH \
 @WEAVE_BUILD_TESTS_TRUE@	TestECDSA TestECMath \
 @WEAVE_BUILD_TESTS_TRUE@	TestFabricStateDelegate \
@@ -3171,6 +3184,9 @@ noinst_HEADERS = CASEOptions.h DMTestClient.h DeviceDescOptions.h \
 @WEAVE_BUILD_TESTS_TRUE@TestCASE_SOURCES = TestCASE.cpp
 @WEAVE_BUILD_TESTS_TRUE@TestCASE_LDFLAGS = $(AM_CPPFLAGS)
 @WEAVE_BUILD_TESTS_TRUE@TestCASE_LDADD = libWeaveTestCommon.a $(COMMON_LDADD)
+@WEAVE_BUILD_TESTS_TRUE@TestCertProv_SOURCES = TestCertProv.cpp MockCAService.cpp TestWeaveCertData.cpp
+@WEAVE_BUILD_TESTS_TRUE@TestCertProv_LDFLAGS = $(AM_CPPFLAGS)
+@WEAVE_BUILD_TESTS_TRUE@TestCertProv_LDADD = libWeaveTestCommon.a $(COMMON_LDADD)
 @WEAVE_BUILD_TESTS_TRUE@TestCodeUtils_SOURCES = TestCodeUtils.cpp
 @WEAVE_BUILD_TESTS_TRUE@TestCodeUtils_LDADD = 
 @WEAVE_BUILD_TESTS_TRUE@TestCrypto_SOURCES = TestCrypto.cpp
@@ -3400,6 +3416,7 @@ noinst_HEADERS = CASEOptions.h DMTestClient.h DeviceDescOptions.h \
 @WEAVE_BUILD_TESTS_TRUE@infratest_SOURCES = infratest.cpp
 @WEAVE_BUILD_TESTS_TRUE@infratest_LDADD = $(COMMON_LDADD)
 @WEAVE_BUILD_TESTS_TRUE@mock_device_SOURCES = mock-device.cpp \
+@WEAVE_BUILD_TESTS_TRUE@	MockCAService.cpp \
 @WEAVE_BUILD_TESTS_TRUE@	MockDCLPServer.cpp MockDCServer.cpp \
 @WEAVE_BUILD_TESTS_TRUE@	MockDDServer.cpp MockFPServer.cpp \
 @WEAVE_BUILD_TESTS_TRUE@	MockNPServer.cpp MockOpActions.cpp \
@@ -3426,6 +3443,7 @@ noinst_HEADERS = CASEOptions.h DMTestClient.h DeviceDescOptions.h \
 @WEAVE_BUILD_TESTS_TRUE@	MockWdmSubscriptionResponder.cpp \
 @WEAVE_BUILD_TESTS_TRUE@	MockWdmNodeOptions.cpp \
 @WEAVE_BUILD_TESTS_TRUE@	MockLoggingManager.cpp MockEvents.cpp \
+@WEAVE_BUILD_TESTS_TRUE@	TestWeaveCertData.cpp \
 @WEAVE_BUILD_TESTS_TRUE@	$(am__append_44)
 @WEAVE_BUILD_TESTS_TRUE@TestErrorStr_SOURCES = TestErrorStr.cpp
 @WEAVE_BUILD_TESTS_TRUE@TestErrorStr_LDADD = $(COMMON_LDADD)
@@ -3584,6 +3602,11 @@ crypto-tests/WeaveCryptoSHATests.$(OBJEXT):  \
 	crypto-tests/$(am__dirstamp) \
 	crypto-tests/$(DEPDIR)/$(am__dirstamp)
 
+libMockCAService.a: $(libMockCAService_a_OBJECTS) $(libMockCAService_a_DEPENDENCIES) $(EXTRA_libMockCAService_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libMockCAService.a
+	$(AM_V_AR)$(libMockCAService_a_AR) libMockCAService.a $(libMockCAService_a_OBJECTS) $(libMockCAService_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libMockCAService.a
+
 libWeaveCryptoTests.a: $(libWeaveCryptoTests_a_OBJECTS) $(libWeaveCryptoTests_a_DEPENDENCIES) $(EXTRA_libWeaveCryptoTests_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libWeaveCryptoTests.a
 	$(AM_V_AR)$(libWeaveCryptoTests_a_AR) libWeaveCryptoTests.a $(libWeaveCryptoTests_a_OBJECTS) $(libWeaveCryptoTests_a_LIBADD)
@@ -3710,6 +3733,10 @@ TestBinding$(EXEEXT): $(TestBinding_OBJECTS) $(TestBinding_DEPENDENCIES) $(EXTRA
 TestCASE$(EXEEXT): $(TestCASE_OBJECTS) $(TestCASE_DEPENDENCIES) $(EXTRA_TestCASE_DEPENDENCIES) 
 	@rm -f TestCASE$(EXEEXT)
 	$(AM_V_CXXLD)$(TestCASE_LINK) $(TestCASE_OBJECTS) $(TestCASE_LDADD) $(LIBS)
+
+TestCertProv$(EXEEXT): $(TestCertProv_OBJECTS) $(TestCertProv_DEPENDENCIES) $(EXTRA_TestCertProv_DEPENDENCIES) 
+	@rm -f TestCertProv$(EXEEXT)
+	$(AM_V_CXXLD)$(TestCertProv_LINK) $(TestCertProv_OBJECTS) $(TestCertProv_LDADD) $(LIBS)
 
 TestCodeUtils$(EXEEXT): $(TestCodeUtils_OBJECTS) $(TestCodeUtils_DEPENDENCIES) $(EXTRA_TestCodeUtils_DEPENDENCIES) 
 	@rm -f TestCodeUtils$(EXEEXT)
@@ -4193,6 +4220,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestArgParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestBinding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestCASE.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestCertProv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestCodeUtils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestCrypto-TestCrypto.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TestDRBG.Po@am__quote@
@@ -6202,6 +6230,13 @@ TestArgParser.log: TestArgParser$(EXEEXT)
 TestCASE.log: TestCASE$(EXEEXT)
 	@p='TestCASE$(EXEEXT)'; \
 	b='TestCASE'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+TestCertProv.log: TestCertProv$(EXEEXT)
+	@p='TestCertProv$(EXEEXT)'; \
+	b='TestCertProv'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
