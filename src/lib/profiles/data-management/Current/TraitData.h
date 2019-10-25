@@ -337,6 +337,17 @@ public:
     WEAVE_ERROR MapPathToHandle(nl::Weave::TLV::TLVReader & aPathReader, PropertyPathHandle & aHandle) const;
 
     /**
+     * Given a string positioned at the root tag of a WDM path, the delimiter is /, read out the relevant tags and provide
+     * the equivalent path handle.
+     *
+     *
+     * @retval #WEAVE_NO_ERROR                  On success.
+     * @retval #WEAVE_ERROR_TLV_TAG_NOT_FOUND   If a matching handle could not be found due to a
+     *                                          malformed/incorrectly specified path.
+     */
+    WEAVE_ERROR MapPathToHandle(const char * aPathString, PropertyPathHandle & aHandle) const;
+
+    /**
      * Convert the path handle to a TLV path.
      *
      * @retval #WEAVE_NO_ERROR On success.
@@ -522,7 +533,7 @@ public:
 private:
     PropertyPathHandle _GetChildHandle(PropertyPathHandle aParentHandle, uint8_t aContextTag) const;
     bool GetBitFromPathHandleBitfield(uint8_t * aBitfield, PropertyPathHandle aPathHandle) const;
-
+    WEAVE_ERROR ParseTagString(const char *apTagString, char **apEndptr, uint64_t& aParseRes, bool &anyParsed) const;
 public:
     const Schema mSchema;
 };
