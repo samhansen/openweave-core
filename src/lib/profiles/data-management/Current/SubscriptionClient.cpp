@@ -2916,6 +2916,7 @@ void SubscriptionClient::AbortUpdates(WEAVE_ERROR aErr)
 
         numInProgress = mInProgressUpdateList.GetNumItems();
         mInProgressUpdateList.Clear();
+        SetPendingSetState(kPendingSetEmpty);
     }
     else
     {
