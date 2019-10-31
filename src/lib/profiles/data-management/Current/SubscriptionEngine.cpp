@@ -1091,7 +1091,7 @@ void SubscriptionEngine::OnSubscribeRequest(nl::Weave::ExchangeContext * aEC, co
         ExitNow(err = WEAVE_ERROR_NO_MEMORY);
     }
 
-    err = binding->BeginConfiguration().ConfigureFromMessage(aMsgInfo, aPktInfo).PrepareBinding();
+    err = binding->BeginConfiguration().ConfigureFromMessage(aMsgInfo, aPktInfo, aEC->Con).PrepareBinding();
     SuccessOrExit(err);
 
     // If the peer requested an ACK, we need to ensure that the exchange context will automatically
